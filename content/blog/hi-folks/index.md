@@ -1,7 +1,7 @@
 ---
 title: 编写可伸缩组件
 date: "2019-03-19T19:40:32.169Z"
-description: This is a custom description for SEO and Open Graph purposes, rather than the default generated excerpt. Simply add a description field to the frontmatter.
+description: 编写一个可伸缩的组件，具有弹性，可拓展
 ---
 
 # 编写弹性组件

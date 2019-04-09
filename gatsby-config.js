@@ -4,9 +4,10 @@ module.exports = {
     title: `xiaohesong's Blog`,
     author: `xiaohesong`,
     description: `xiaohesong的个人博客. 学习的记录以及一些学习资源.`,
-    siteUrl: `https://gatsby-starter-blog-demo.netlify.com/`,
+    siteUrl: `https://github.com/xiaohesong`,
     social: {
       twitter: `xiaohesong`,
+      github: `xiaohesong`,
     },
   },
   plugins: [
