@@ -126,6 +126,10 @@ pre[class*='language-'] ::selection {
   color: rgb(199, 146, 234);
 }
 
+.token.inserted {
+  color: #ffa7c4;
+}
+
 .token.selector,
 .token.doctype {
   color: rgb(199, 146, 234);
