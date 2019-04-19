@@ -40,7 +40,7 @@ function Bio() {
             <p>
               {/* <strong>{author}</strong> 的学习记录，热于分享。 */}
               {` `}本博客是
-              <a href={`https://github.com/${social.github}/til`}>{' '}
+              <a href={`https://github.com/xiaohesong/til`}>{' '}
                 此学习库
               </a>{` `}的部分内容。{` `}
               你也可以点击查看<a href={`http://xiaohesong.github.io`}>{' '}
