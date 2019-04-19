@@ -70,13 +70,13 @@ description: 详细的介绍了effects使用中的一些细节
 
 这是一个counter。仔细查看突出显示的行：
 
-```diff
+```jsx{6}
 function Counter() {
   const [count, setCount] = useState(0);
 
   return (
     <div>
-+     <p>You clicked {count} times</p>
+      <p>You clicked {count} times</p>
       <button onClick={() => setCount(count + 1)}>
         Click me
       </button>
@@ -221,10 +221,10 @@ sayHi(someone);
 
 这解释了我们的事件处理程序如何在单击时捕获`count`。如果我们应用相同的替换原则，每个渲染“看到”它自己的`count`：
 
-```diff
+```jsx{3,14,25}
 // During first render
 function Counter() {
-+ const count = 0; // Returned by useState()  // ...
+  const count = 0; // Returned by useState()  // ...
   function handleAlertClick() {
     setTimeout(() => {
       alert('You clicked on: ' + count);
@@ -235,7 +235,7 @@ function Counter() {
 
 // After a click, our function is called again
 function Counter() {
-+ const count = 1; // Returned by useState()  // ...
+  const count = 1; // Returned by useState()  // ...
   function handleAlertClick() {
     setTimeout(() => {
       alert('You clicked on: ' + count);
@@ -246,7 +246,7 @@ function Counter() {
 
 // After another click, our function is called again
 function Counter() {
-+ const count = 2; // Returned by useState()  // ...
+  const count = 2; // Returned by useState()  // ...
   function handleAlertClick() {
     setTimeout(() => {
       alert('You clicked on: ' + count);
@@ -258,13 +258,13 @@ function Counter() {
 
 如此有效，每个渲染都返回自己“版本”的`handleAlertClick`。每个版本都“记住”自己的`count`：
 
-```diff
+```jsx{6,19,32}
 // During first render
 function Counter() {
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-+     alert('You clicked on: ' + 0);
+      alert('You clicked on: ' + 0);
     }, 3000);
   }
   // ...
@@ -277,7 +277,7 @@ function Counter() {
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-+     alert('You clicked on: ' + 1);
+      alert('You clicked on: ' + 1);
     }, 3000);
   }
   // ...
@@ -290,7 +290,7 @@ function Counter() {
   // ...
   function handleAlertClick() {
     setTimeout(() => {
-+     alert('You clicked on: ' + 2);
+      alert('You clicked on: ' + 2);
     }, 3000);
   }
   // ...
@@ -484,22 +484,22 @@ componentDidUpdate() {
 
 所以这两个例子是等价的：
 
-```diff
+```jsx{4}
 function Example(props) {
   useEffect(() => {
     setTimeout(() => {
-+     console.log(props.counter);    }, 1000);
+      console.log(props.counter);    }, 1000);
   });
   // ...
 }
 ```
 
-```diff
+```jsx{2,5}
 function Example(props) {
-+ const counter = props.counter;
+  const counter = props.counter;
   useEffect(() => {
     setTimeout(() => {
-+     console.log(counter);    }, 1000);
+      console.log(counter);    }, 1000);
   });
   // ...
 }
@@ -834,7 +834,7 @@ function Counter() {
 
 在第一次渲染中，`count`为`0`。因此，第一个渲染效果中的`setCount(count + 1)`表示`setCount(0 + 1)`。因为`[]` deps我们永远不会重新运行效果，所以它会每秒调用`setCount(0 + 1)`：
 
-```diff
+```jsx{8,12,21,22}
 // First render, state is 0
 function Counter() {
   // ...
@@ -842,11 +842,11 @@ function Counter() {
     // Effect from first render
     () => {
       const id = setInterval(() => {
-+       setCount(0 + 1); // Always setCount(1)
+        setCount(0 + 1); // Always setCount(1)
       }, 1000);
       return () => clearInterval(id);
     },
-+   [] // Never re-runs
+    [] // Never re-runs
   );
   // ...
 }
@@ -855,8 +855,8 @@ function Counter() {
 function Counter() {
   // ...
   useEffect(
-+   // This effect is always ignored because
-+   // we lied to React about empty deps.
+    // This effect is always ignored because
+    // we lied to React about empty deps.
     () => {
       const id = setInterval(() => {
         setCount(1 + 1);
@@ -874,12 +874,12 @@ function Counter() {
 
 我们的效果使用`count` - 组件内部的值（但在效果之外）：
 
-```diff
-+const count = // ...
+```jsx{1,5}
+const count = // ...
 
 useEffect(() => {
   const id = setInterval(() => {
-+   setCount(count + 1);
+    setCount(count + 1);
   }, 1000);
   return () => clearInterval(id);
 }, []);
@@ -911,7 +911,7 @@ useEffect(() => {
 
 这使依赖项数组正确。它可能不太*理想*，但这是我们需要解决的第一个问题。现在改变`count`将重新运行效果，每一个下一个间隔引用`count`从其渲染在`setCount(count + 1)`:
 
-```diff
+```jsx{8,12,24,28}
 // First render, state is 0
 function Counter() {
   // ...
@@ -919,11 +919,11 @@ function Counter() {
     // Effect from first render
     () => {
       const id = setInterval(() => {
-+       setCount(0 + 1); // setCount(count + 1)
+        setCount(0 + 1); // setCount(count + 1)
       }, 1000);
       return () => clearInterval(id);
     },
-+   [0] // [count]
+    [0] // [count]
   );
   // ...
 }
@@ -935,11 +935,11 @@ function Counter() {
     // Effect from second render
     () => {
       const id = setInterval(() => {
-+       setCount(1 + 1); // setCount(count + 1)
+        setCount(1 + 1); // setCount(count + 1)
       }, 1000);
       return () => clearInterval(id);
     },
-+   [1] // [count]
+    [1] // [count]
   );
   // ...
 }
@@ -1175,13 +1175,13 @@ function SearchResults() {
 
 现在让我们说我们稍后在其中一个函数中使用一些状态或prop：
 
-```diff
+```jsx{6}
 function SearchResults() {
   const [query, setQuery] = useState('react');
 
   // Imagine this function is also long
   function getFetchUrl() {
-+   return 'https://hn.algolia.com/api/v1/search?query=' + query;
+    return 'https://hn.algolia.com/api/v1/search?query=' + query;
   }
 
   // Imagine this function is also long
@@ -1616,15 +1616,15 @@ class Article extends Component {
 
 或者，最简单的权宜之计方法是使用布尔值跟踪它：
 
-```diff
+```jsx{5,8}
 function Article({ id }) {
   const [article, setArticle] = useState(null);
 
   useEffect(() => {
-+   let didCancel = false;
+    let didCancel = false;
     async function fetchData() {
       const article = await API.fetchArticle(id);
-+     if (!didCancel) {        
+      if (!didCancel) {        
       	setArticle(article);
       }
     }
