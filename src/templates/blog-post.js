@@ -6,20 +6,29 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
 
-import { DiscussionEmbed } from "disqus-react"
+import 'gitalk/dist/gitalk.css'
+import Gitalk from 'gitalk'
 
 class BlogPostTemplate extends React.Component {
+  componentDidMount() {
+    // https://www.gatsbyjs.org/docs/environment-variables/
+    const gitalk = new Gitalk({
+      clientID: process.env.GATSBY_CLIENT_ID,
+      clientSecret: process.env.GATSBY_CLIENT_SECRET,
+      repo: 'https://github.com/xhsblog/xhsblog.github.io',
+      owner: 'xiaohesong',
+      admin: ['xhsblog', 'xiaohesong'],
+      id: window.location.pathname,      // Ensure uniqueness and length less than 50
+      distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('gitalk-container')
+  }
+  
   render() {
     const post = this.props.data.markdownRemark
     const siteTitle = this.props.data.site.siteMetadata.title
     const { previous, next } = this.props.pageContext
-    const disqusConfig = {
-      shortname: "blog-xiaohesong",
-      config: {
-        identifier: `xiaohesong-${this.props.location.pathname}`,
-        title: `xiaohesong-${post.frontmatter.title}`
-      },
-    }
     console.log(this.props.location);
     
     return (
@@ -45,7 +54,7 @@ class BlogPostTemplate extends React.Component {
             marginBottom: rhythm(1),
           }}
         />
-        <DiscussionEmbed {...disqusConfig} />
+        <div id="gitalk-container"></div>
         <Bio />
 
         <ul
