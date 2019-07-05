@@ -15,8 +15,8 @@ class BlogPostTemplate extends React.Component {
     const gitalk = new Gitalk({
       clientID: process.env.GATSBY_CLIENT_ID,
       clientSecret: process.env.GATSBY_CLIENT_SECRET,
-      repo: 'https://github.com/xhsblog/xhsblog.github.io',
-      owner: 'xiaohesong',
+      repo: 'xhsblog.github.io',
+      owner: 'xhsblog',
       admin: ['xhsblog', 'xiaohesong'],
       id: window.location.pathname,      // Ensure uniqueness and length less than 50
       distractionFreeMode: false  // Facebook-like distraction free mode
